@@ -2,7 +2,7 @@
 - name: Install nodejs and npm
   package:
     name: "{{ item }}"
-    state: present
+    state: latest
   loop:
     - epel-release
     - nodejs

@@ -12,6 +12,9 @@
     - git
     - yum-utils
 
+- name: Update all packages
+  command: yum update -y
+
 - name: "Create User {{ app_user }}"
   user:
     name: "{{ app_user }}"

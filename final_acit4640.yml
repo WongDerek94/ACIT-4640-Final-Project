@@ -24,7 +24,7 @@
   become: true
   tasks:
     - import_role:
-        name: todoapp
+        name: places
       tags:
         - deployment
 #     - import_role:
