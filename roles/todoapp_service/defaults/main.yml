@@ -1,13 +1,19 @@
 ---
-todo_user: todoapp
-todo_app_port: 8080
-todo_user_password: P@ssw0rd
-todo_user_directory: "/home/todoapp"
-todo_app_directory: "/home/todoapp/app"
-application_github_link: https://github.com/timoguic/ACIT4640-todo-app.git
-database_js_src_location: "database.js"
-database_js_dest_location: "/home/todoapp/app/config/database.js"
-database_preload_source_dir: "preload-db"
-todo_app_service_template_src: "todoapp.service.j2"
-todo_app_service_template_dest: /etc/systemd/system/todoapp.service
+app_user: places
+app_user_password: P@ssw0rd
+app_user_directory: "/home/places"
+app_directory: "/home/places/Places/"
+app_client_directory: "/home/places/Places/src/client/"
+app_service_template_src: "places.service.j2"
+app_service_template_dest: /etc/systemd/system/places.service
+application_github_link: https://github.com/WongDerek94/Places.git
+map_container_js: "MapContainer.js"
+map_container_dest_location: "/home/places/Places/src/client/src/components"
+db_host: "localhost"
+db_port: "3306"
+db_user: "root"
+db_pass: "P@ssw0rd"
+db_name: "maps"
+env_file: ".env.j2"
+env_file_dest_dir: "/home/places/Places/src/"
 ...

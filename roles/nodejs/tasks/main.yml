@@ -7,4 +7,8 @@
     - epel-release
     - nodejs
     - npm
+- name: Install create react app package globally
+  npm:
+    name: create-react-app
+    global: yes
 ...

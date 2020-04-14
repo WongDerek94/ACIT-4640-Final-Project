@@ -68,6 +68,10 @@
         ports:
           - 80
         cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports:
+          - 3000
+        cidr_ip: 0.0.0.0/0
     description:
       security group to be attached to the vpc allowing ssh connection from intended hosts home and http traffic from anywhere
   when: vpc_data is defined

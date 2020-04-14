@@ -1,3 +1,4 @@
+---
 - name: Put SELinux in permissive mode, logging actions that would be blocked.
   selinux:
     policy: targeted
@@ -11,64 +12,70 @@
     - git
     - yum-utils
 
-- name: "Create User {{ todo_user }}"
+- name: "Create User {{ app_user }}"
   user:
-    name: "{{ todo_user }}"
+    name: "{{ app_user }}"
     create_home: true
     system: true
-    password: "{{ todo_user_password}}"
+    password: "{{ app_user_password}}"
+
+- name: "Check if {{ app_user }} application is already cloned"
+  stat:
+    path: "{{ app_directory }}"
+  register: "app_directory_stat_result"
 
 - name: "Git clone application"
   git: 
     repo: "{{ application_github_link }}"
-    dest: "{{ todo_app_directory }}"
+    dest: "{{ app_directory }}"
     update: false
+  when: "app_directory_stat_result.stat.exists == False"
 
-- name: "Configure {{ todo_user }} database"
+- name: "Configure Google Maps API"
   copy:
-    src="{{ database_js_src_location }}"
-    dest="{{ database_js_dest_location }}"
-    
-- name: Copy over preloaded database
-  copy:
-    src="{{ database_preload_source_dir }}" 
-    dest="{{ todo_user_directory }}"
+    src="{{ map_container_js }}"
+    dest="{{ map_container_dest_location }}"
 
-- name: "install and setup MongoDB server"
-  import_role:
-    name: "mongodb"
+- name: "Configure .env variables"
+  template:
+    src="{{ env_file }}"
+    dest="{{ env_file_dest_dir }}"
 
-- name: "Change ownership of {{ todo_user }} directory"
+- name: "Change ownership of {{ app_user }} directory"
   file:
-    path: "{{ todo_app_directory }}"
-    owner: "{{ todo_user }}"
-    group: "{{ todo_user }}"
+    path: "{{ app_directory }}"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
     recurse: true
 
-- name: "Change file permission of {{ todo_user }} directory"
+- name: "Change file permission of {{ app_user }} directory"
   file:
-    path: "{{ todo_user_directory }}"
+    path: "{{ app_user_directory }}"
     mode: "0755"
     recurse: true
 
-- name: "Install node dependencies"
+- name: "Install node dependencies in src/"
   npm:
-    path: "{{ todo_app_directory }}"
+    path: "{{ app_directory }}/src"
     
-- name: "Check if {{ todo_user }} service is already registered"
-  stat:
-    path: "/etc/systemd/system/{{ todo_user }}.service"
-  register: "todoapp_service_stat_result"
-    
-- name: "Register {{ todo_user }} service"
-  template: 
-    src="{{ todo_app_service_template_src }}" 
-    dest="{{ todo_app_service_template_dest }}"
-  when: "todoapp_service_stat_result.stat.exists == False"
+- name: "Install node dependencies in src/client/"
+  npm:
+    path: "{{ app_client_directory }}"
 
-- name: "Ensure {{ todo_user }} is enabled and restarted"
+- name: "Check if {{ app_user }} service is already registered"
+  stat:
+    path: "/etc/systemd/system/{{ app_user }}.service"
+  register: "app_service_stat_result"
+    
+- name: "Register {{ app_user }} service"
+  template: 
+    src="{{ app_service_template_src }}" 
+    dest="{{ app_service_template_dest }}"
+  when: "app_service_stat_result.stat.exists == False"
+
+- name: "Ensure {{ app_user }} is enabled and restarted"
   systemd:
-    name: "{{ todo_user }}"
+    name: "{{ app_user }}"
     enabled: true
     state: restarted
 ...

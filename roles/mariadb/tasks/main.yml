@@ -1,0 +1,41 @@
+---
+- name: "Install mariadb"
+  yum:
+    name: mariadb-server
+    state: present
+
+- name: "Install the Python MySQL Support Libraries"
+  yum:
+    name: MySQL-python
+    state: latest
+
+- name: "Start MySQL server and enable it on reboot"
+  systemd:
+    name: mariadb
+    enabled: true
+    state: started
+
+- name: "Set MySQL root password"
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    user: root
+    check_implicit_admin: true
+    password: "{{ mysql_root_password }}"
+    host: localhost
+
+- name: Copy over database dump file
+  copy:
+    src="{{ database_dump_file_name }}" 
+    dest="{{ database_dump_destination }}"
+
+- name: restore data from dump file
+  shell: "mysql -u root -p{{ mysql_root_password }} < {{ database_dump_destination }}{{ database_dump_file_name }}"
+
+- name: "Reload mariadb daemon and ensure it is restarted"
+  systemd:
+    name: mariadb
+    enabled: true
+    daemon_reload: true
+    state: restarted
+...
