@@ -1,0 +1,4 @@
+---
+- name: preload database
+  shell: "mysql -u root -p{{ mysql_root_password }} < {{ database_dump_destination }}/{{ database_dump_file_name }}"
+...

@@ -52,13 +52,21 @@
     state: present
     host: localhost
 
+- name: "Check if {{ database_dump_destination }} contains {{ database_dump_file_name }}"
+  stat:
+    path: "{{ database_dump_destination }}/{{ database_dump_file_name }}"
+  register: "database_dump_transfer"
+
 - name: Copy over database dump file
   copy:
-    src: "{{ database_dump_file_name }}" 
-    dest: "{{ database_dump_destination }}"
+    src="{{ database_dump_file_name }}" 
+    dest="{{ database_dump_destination }}"
+  notify:
+    preload database
+  when: "database_dump_transfer.stat.exists == False"
 
-- name: restore data from dump file
-  shell: "mysql -u root -p{{ mysql_root_password }} < {{ database_dump_destination }}{{ database_dump_file_name }}"
+- name: Force all notified handlers to run at this point, not waiting for normal sync points
+  meta: flush_handlers
 
 - name: "Reload mariadb daemon and ensure it is restarted"
   systemd:

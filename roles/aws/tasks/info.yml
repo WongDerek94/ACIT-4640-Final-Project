@@ -1,13 +1,11 @@
 ---
-- name: "Display public IP address and DNS name of instance"
+- name: "Gather instance information: public IP address and DNS name of instance"
   ec2_instance_facts:
     region: "{{ aws_region }}"
     filters:
       instance-state-name: "running"
   register: "instance_data"
-- debug:
-    msg: "Instance is not created"
-  when: instance_data.instances[0] is undefined
+  
 - debug:
     msg: "{{ instance_data.instances[0].tags.Name }} instance is running"
   when: instance_data.instances[0] is defined
@@ -17,4 +15,7 @@
 - debug:
     msg: "Public DNS name of instance: {{ instance_data.instances[0].public_dns_name }}"
   when: instance_data.instances[0] is defined
+- debug:
+    msg: "No instances running"
+  when: instance_data.instances[0] is not defined
 ...
