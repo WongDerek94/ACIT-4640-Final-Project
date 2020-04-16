@@ -1,5 +1,5 @@
 ---
-- name: "Display status of MariaDB, NGINX and Places services"
+- name: "Gather service status of MariaDB, NGINX and Places services"
   service_facts:
   register: "service_state"
 
@@ -14,4 +14,8 @@
 - debug:
     msg:
       "Places service status: {{ service_state.ansible_facts.services['places.service'].state }}"
+
+- debug:
+    msg: "No services running"
+  when: service_state is not defined
 ...
