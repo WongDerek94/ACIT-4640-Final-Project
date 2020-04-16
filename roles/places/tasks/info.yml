@@ -1,18 +1,17 @@
-# TODO:  Need to update the services displayed
-# ---
-# - name: Display status of both Nginx and Places services
-#   service_facts:
-#   register: service_state
+---
+- name: Display status of both MariaDB, Nginx and Places services
+  service_facts:
+  register: service_state
 
-# - debug:
-#     msg: 
-#       "Mongod service status: {{ service_state.ansible_facts.services['mongod.service'].state }}"
+- debug:
+    msg: 
+      "MariaDB service status: {{ service_state.ansible_facts.services['mariadb.service'].state }}"
 
 # - debug:
 #     msg: 
 #       "Nginx service status: {{ service_state.ansible_facts.services['nginx.service'].state }}"
 
-# - debug:
-#     msg: 
-#       "Todoapp service status: {{ service_state.ansible_facts.services['todoapp.service'].state }}"
-# ...
+- debug:
+    msg: 
+      "Places service status: {{ service_state.ansible_facts.services['places.service'].state }}"
+...

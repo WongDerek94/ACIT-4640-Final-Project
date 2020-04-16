@@ -186,8 +186,8 @@ export class MapContainer extends Component {
                      zoom={14} 
                      onClick={this.onMapClicked}
                      initialCenter={{
-                        lat: 41.8781,
-                        lng: -87.6298
+                        lat: 49.246292,
+                        lng: -123.116226
                      }}>
                     {this.renderLocations()}
                     <InfoWindowEx

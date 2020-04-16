@@ -1,8 +1,13 @@
 ---
+- name: "Check if nodejs is installed"
+  package_facts:
+    manager: "auto"
+
 - name: "Set nodejs version to 10"
   shell: "curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -"
   args:
     warn: false
+  when: "'nodejs' not in ansible_facts.packages"
 
 # TODO: move epel-release to another role
 - name: "Install nodejs"
@@ -12,9 +17,11 @@
   loop:
     - "epel-release"
     - "nodejs"
+  when: "'nodejs' not in ansible_facts.packages"
 
 - name: "Install create react app package globally"
   npm:
     name: "create-react-app"
     global: yes
+    state: present
 ...

@@ -1,6 +1,6 @@
 ---
 - name: Display public IP address of instance
-  ec2_instance_info:
+  ec2_instance_facts:
     region: "{{ aws_region }}"
     filters:
       instance-state-name: "running"

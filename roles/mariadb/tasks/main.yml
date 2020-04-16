@@ -1,13 +1,31 @@
 ---
-- name: "Install mariadb"
-  yum:
-    name: mariadb-server
-    state: present
+- name: Display status of both MariaDB and Places services
+  service_facts:
+  register: service_state
+
+- name: "Check if MariaDB server/client are installed"
+  package_facts:
+    manager: "auto"
 
 - name: "Install the Python MySQL Support Libraries"
   yum:
     name: MySQL-python
     state: latest
+
+- name: "Set MariaDB server and client"
+  shell: "curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash"
+  args:
+    warn: false
+  when: "'MariaDB-server' not in ansible_facts.packages or 'MariaDB-client' not in ansible_facts.packages"
+
+- name: "Install MariaDB"
+  package:
+    name: "{{ item }}"
+    state: "latest"
+  loop:
+    - "MariaDB-server"
+    - "MariaDB-client"
+  when: "'MariaDB-server' not in ansible_facts.packages or 'MariaDB-client' not in ansible_facts.packages"
 
 - name: "Start MySQL server and enable it on reboot"
   systemd:
@@ -23,6 +41,15 @@
     check_implicit_admin: true
     password: "{{ mysql_root_password }}"
     host: localhost
+
+- name: "Create database user {{ database_user }} with all database privileges"
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ database_user }}"
+    password: "{{ database_user_password }}"
+    priv: '*.*:ALL'
+    state: present
 
 - name: Copy over database dump file
   copy:

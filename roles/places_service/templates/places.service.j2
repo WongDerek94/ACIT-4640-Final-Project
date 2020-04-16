@@ -1,9 +1,8 @@
 [Unit]
-Description=Todo app, ACIT4640
+Description=Places app, ACIT4640
 After=network.target
 
 [Service]
-Environment="DANGEROUSLY_DISABLE_HOST_CHECK=true"
 WorkingDirectory={{ app_directory }}/src
 Type=simple
 User={{ app_user }}
