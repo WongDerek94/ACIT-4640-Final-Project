@@ -1,4 +1,12 @@
 ---
+- name: Display status of both MariaDB and Places services
+  service_facts:
+  register: service_state
+
+- name: "Check if MariaDB server/client are installed"
+  package_facts:
+    manager: "auto"
+
 - name: "Install the Python MySQL Support Libraries"
   yum:
     name: MySQL-python
@@ -8,6 +16,7 @@
   shell: "curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash"
   args:
     warn: false
+  when: "'MariaDB-server' not in ansible_facts.packages or 'MariaDB-client' not in ansible_facts.packages"
 
 - name: "Install MariaDB"
   package:
@@ -16,6 +25,7 @@
   loop:
     - "MariaDB-server"
     - "MariaDB-client"
+  when: "'MariaDB-server' not in ansible_facts.packages or 'MariaDB-client' not in ansible_facts.packages"
 
 - name: "Start MySQL server and enable it on reboot"
   systemd:

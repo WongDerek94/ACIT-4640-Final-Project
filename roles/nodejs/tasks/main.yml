@@ -1,5 +1,5 @@
 ---
-- name: "Check if nodejs & create-react-app is installed"
+- name: "Check if nodejs is installed"
   package_facts:
     manager: "auto"
 
