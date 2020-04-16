@@ -3,19 +3,11 @@
   service_facts:
   register: "service_state"
 
-- name: Put SELinux in permissive mode, logging actions that would be blocked.
-  selinux:
-    policy: targeted
-    state: permissive
-
-- name: "Install yum-utils and git"
+- name: "Install git"
   package:
-    name: "{{ item }}"
+    name: "git"
     state: "present"
-  loop:
-    - "git"
-    - "yum-utils"
-  when: "'git' or 'yum-utils' not in ansible_facts.packages"
+  when: "'git' not in ansible_facts.packages"
 
 - name: "Check if {{ app_user }} directory is already created"
   stat:
@@ -97,5 +89,6 @@
   systemd:
     name: "{{ app_user }}"
     enabled: true
+    daemon_reload: yes
     state: "restarted"
 ...

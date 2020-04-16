@@ -1,0 +1,13 @@
+---
+- name: "Put SELinux in permissive mode, logging actions that would be blocked."
+  selinux:
+    policy: "targeted"
+    state: "permissive"
+
+- name: "install util packages - epel-release, yum-utils, vim"
+  package:
+    name:
+      - "epel-release"
+      - "yum-utils"
+      - "vim"
+    state: "present"

@@ -13,6 +13,9 @@ default_route: "0.0.0.0/0"
 
 # Creation of security group
 secgroup_ssh_allowed_instructor_cidr: "0.0.0.0/0"
+ssh_port: 22
+http_port: 80
+app_client_port: 3000
 
 # Creation of ec2 instance
 ami_id: "ami-0bc06212a56393ee1"
