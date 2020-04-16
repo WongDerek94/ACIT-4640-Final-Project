@@ -1,4 +1,8 @@
 ---
+- name: Display stats of both MariaDB and Places services
+  service_facts:
+  register: service_state
+
 - name: Put SELinux in permissive mode, logging actions that would be blocked.
   selinux:
     policy: targeted
@@ -11,6 +15,12 @@
   loop:
     - git
     - yum-utils
+  when: "'git' or 'yum-utils' not in ansible_facts.packages"
+
+- name: "Check if {{ app_user }} directory is already created"
+  stat:
+    path: "{{ app_directory }}"
+  register: "app_user_directory_stat_result"
 
 - name: "Create User {{ app_user }}"
   user:
@@ -18,6 +28,7 @@
     create_home: true
     system: true
     password: "{{ app_user_password}}"
+  when: "app_user_directory_stat_result.stat.exists == False"
 
 - name: "Check if {{ app_user }} application is already cloned"
   stat:
@@ -47,12 +58,14 @@
     owner: "{{ app_user }}"
     group: "{{ app_user }}"
     recurse: true
+  when: "app_user_directory_stat_result.stat.exists == False"
 
 - name: "Change file permission of {{ app_user }} directory"
   file:
     path: "{{ app_user_directory }}"
     mode: "0755"
     recurse: true
+  when: "app_user_directory_stat_result.stat.exists == False"
 
 - name: "Install node dependencies in src/"
   npm:
