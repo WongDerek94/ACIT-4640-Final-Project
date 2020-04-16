@@ -23,5 +23,5 @@
   npm:
     name: "create-react-app"
     global: yes
-    state: present
+    state: "present"
 ...

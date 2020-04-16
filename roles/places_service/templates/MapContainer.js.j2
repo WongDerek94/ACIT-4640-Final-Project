@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+{%raw%} import React, {Component} from 'react';
 import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import Modal from 'react-modal';
 
@@ -243,7 +243,8 @@ export class MapContainer extends Component {
         );
     }
 }
+{%endraw%}
 
 export default GoogleApiWrapper({
-    apiKey: ("AIzaSyCuoyULuAsBeg6G7797tHFK8Hp9jKDC5Pk")
+    apiKey: ("{{ google_api_key }}")
 })(MapContainer)
