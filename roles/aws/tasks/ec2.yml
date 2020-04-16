@@ -8,7 +8,7 @@
   register: ec2_key_data
 - debug:
     msg: "{{ ec2_key_data }}"
-    
+
 - name: create the EC2 instance
   ec2:
     region: "{{ aws_region }}"

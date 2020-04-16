@@ -53,29 +53,37 @@
 - debug:
     msg: "{{ rtbl_data }}"
 
-- name: create the security group
+- name: "create the security group"
   ec2_group:
-    state: present
+    state: "present"
     region: "{{ aws_region }}"
     vpc_id: "{{ vpc_data.vpc.id }}"
     name: "{{ vpc_prefix }}_SecGroup"
     rules:
-      - proto: tcp
+      - proto: "tcp"
         ports:
           - 22
         cidr_ip: "{{ secgroup_ssh_allowed_instructor_cidr }}"
+        rule_desc: "open ssh port"
       - proto: tcp
         ports:
           - 80
-        cidr_ip: 0.0.0.0/0
-      - proto: tcp
+        cidr_ip: "0.0.0.0/0"
+        rule_desc: "open http port"
+      - proto: "tcp"
         ports:
           - 3000
-        cidr_ip: 0.0.0.0/0
+        cidr_ip: "0.0.0.0/0"
+        rule_desc: "open front-end app port"
+      - proto: "tcp"
+        ports:
+          - 8080
+        cidr_ip: "0.0.0.0/0"
+        rule_desc: "open back-end app port"
     description:
       security group to be attached to the vpc allowing ssh connection from intended hosts home and http traffic from anywhere
-  when: vpc_data is defined
-  register: sec_group_data
+  when: "vpc_data is defined"
+  register: "sec_group_data"
 - debug:
     msg: "{{ sec_group_data }}"
 ...
