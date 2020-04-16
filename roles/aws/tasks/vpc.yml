@@ -62,17 +62,17 @@
     rules:
       - proto: "tcp"
         ports:
-          - 22
+          - "{{ ssh_port }}"
         cidr_ip: "{{ secgroup_ssh_allowed_instructor_cidr }}"
         rule_desc: "open ssh port"
       - proto: tcp
         ports:
-          - 80
+          - "{{ http_port }}"
         cidr_ip: "0.0.0.0/0"
         rule_desc: "open http port"
       - proto: "tcp"
         ports:
-          - 3000
+          - "{{ app_client_port }}"
         cidr_ip: "0.0.0.0/0"
         rule_desc: "open front-end app port"
     description:
