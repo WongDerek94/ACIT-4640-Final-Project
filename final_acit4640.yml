@@ -42,5 +42,6 @@
         name: aws
         tasks_from: info
       tags:
+        - provision
         - deployment
 ...

@@ -1,6 +1,6 @@
 ---
 - name: query instance data
-  ec2_instance_info:
+  ec2_instance_facts:
     region: "{{ aws_region }}"
     filters:
       instance-state-name: "running"
@@ -55,7 +55,7 @@
 - pause:
     seconds: 1
 
-- name: create the security group
+- name: remove the security group
   ec2_group:
     state: absent
     region: "{{ aws_region }}"
