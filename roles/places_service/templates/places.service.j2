@@ -3,7 +3,8 @@ Description=Todo app, ACIT4640
 After=network.target
 
 [Service]
-WorkingDirectory={{ app_directory }}
+Environment="DANGEROUSLY_DISABLE_HOST_CHECK=true"
+WorkingDirectory={{ app_directory }}/src
 Type=simple
 User={{ app_user }}
 ExecStart=/usr/bin/npm start

@@ -2,13 +2,13 @@
 - name: generate key pair for EC2 instance, returns generated private key
   ec2_key:
     state: present
-    name: "{{ vpc_prefix }}_key"
+    name: "aws_private_key"
     region: "{{ aws_region }}"
     wait: yes
   register: ec2_key_data
 - debug:
     msg: "{{ ec2_key_data }}"
-    
+
 - name: create the EC2 instance
   ec2:
     region: "{{ aws_region }}"
