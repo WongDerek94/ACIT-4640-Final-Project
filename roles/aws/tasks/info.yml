@@ -5,7 +5,9 @@
     filters:
       instance-state-name: "running"
   register: "instance_data"
-  
+- debug:
+    msg: "No instances running"
+  when: instance_data.instances[0] is not defined
 - debug:
     msg: "{{ instance_data.instances[0].tags.Name }} instance is running"
   when: instance_data.instances[0] is defined
@@ -15,7 +17,4 @@
 - debug:
     msg: "Public DNS name of instance: {{ instance_data.instances[0].public_dns_name }}"
   when: instance_data.instances[0] is defined
-- debug:
-    msg: "No instances running"
-  when: instance_data.instances[0] is not defined
 ...
