@@ -1,6 +1,5 @@
 ---
 app_user: "places"
-app_user_password: "P@ssw0rd"
 app_user_directory: "/home/places"
 app_directory: "/home/places/Places"
 app_client_directory: "{{ app_directory }}/src/client"
