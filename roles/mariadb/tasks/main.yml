@@ -1,7 +1,7 @@
 ---
-- name: Display status of both MariaDB and Places services
+- name: "Display status of MariaDB, NGINX and Places services"
   service_facts:
-  register: service_state
+  register: "service_state"
 
 - name: "Check if MariaDB server/client are installed"
   package_facts:
@@ -48,7 +48,7 @@
     login_password: "{{ mysql_root_password }}"
     name: "{{ database_user }}"
     password: "{{ database_user_password }}"
-    priv: '*.*:ALL'
+    priv: "*.*:ALL"
     state: present
     host: localhost
 

@@ -19,10 +19,15 @@
       tags:
         - cleanup
         - never
+
 - hosts: "aws_ec2"
   gather_facts: false
   become: true
   tasks:
+    - import_role:
+        name: base_system
+      tags:
+        - deployment
     - import_role:
         name: places
       tags:
@@ -33,6 +38,7 @@
       tags:
         - info
         - never
+
 # Print out public ip and domain name by default and after deployment
 - hosts: "localhost"
   connection: local

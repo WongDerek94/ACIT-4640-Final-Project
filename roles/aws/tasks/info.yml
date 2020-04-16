@@ -1,5 +1,5 @@
 ---
-- name: "Display public IP address of instance"
+- name: "Display public IP address and DNS name of instance"
   ec2_instance_facts:
     region: "{{ aws_region }}"
     filters:
