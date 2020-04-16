@@ -2,6 +2,6 @@
 database_user: "places"
 database_user_password: "P@ssw0rd"
 database_dump_file_name: "maps.sql"
-database_dump_destination: "/home/centos/"
+database_dump_destination: "/home/centos"
 mysql_root_password: "P@ssw0rd"
 ...
