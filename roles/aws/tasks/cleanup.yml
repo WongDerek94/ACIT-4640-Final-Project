@@ -14,7 +14,7 @@
     device_id: "{{ instance_data.instances[0].instance_id }}"
     ip: "{{ instance_data.instances[0].public_ip_address }}"
     release_on_disassociation: true
-  when: instance_data is defined
+  when: instance_data.instances[0] is defined
   register: ec2_eip_data
   tags: [ cleanup ]
 
@@ -24,6 +24,7 @@
 
 - pause:
     seconds: 1
+  when: instance_data.instances[0] is defined
 
 - name: remove the EC2 instance
   ec2:
@@ -44,7 +45,7 @@
     image: "{{ ami_id }}"
     instance_tags:
       Name: "{{ vpc_prefix }}_APP"
-  when: instance_data is defined
+  when: instance_data.instances[0] is defined
   register: ec2_data
   tags: [ cleanup ]
 
@@ -54,6 +55,7 @@
 
 - pause:
     seconds: 1
+  when: instance_data.instances[0] is defined
 
 - name: remove the security group
   ec2_group:
@@ -61,13 +63,14 @@
     region: "{{ aws_region }}"
     vpc_id: "{{ instance_data.instances[0].vpc_id }}"
     name: "{{ vpc_prefix }}_SecGroup"
-  when: instance_data is defined
+  when: instance_data.instances[0] is defined
   register: sec_group_data
 - debug:
     msg: "{{ sec_group_data }}"
 
 - pause:
     seconds: 1
+  when: instance_data.instances[0] is defined
 
 - name: remove the routing table
   ec2_vpc_route_table:
@@ -78,7 +81,7 @@
       - "{{ subnet_address_block }}"
     tags:
       Name: "{{ vpc_prefix }}_rtbl"
-  when: instance_data is defined
+  when: instance_data.instances[0] is defined
   register: rtbl_data
   tags: [ cleanup ]
 
@@ -88,6 +91,7 @@
 
 - pause:
     seconds: 1
+  when: instance_data.instances[0] is defined
 
 - name: remove the internet gateway
   ec2_vpc_igw:
@@ -96,7 +100,7 @@
     vpc_id: "{{ instance_data.instances[0].vpc_id }}"
     tags:
       Name: "{{ vpc_prefix }}_gw"
-  when: instance_data is defined
+  when: instance_data.instances[0] is defined
   register: igw_data
   tags: [ cleanup ]
 
@@ -106,6 +110,7 @@
 
 - pause:
     seconds: 1
+  when: instance_data.instances[0] is defined
 
 - name: remove the subnet
   ec2_vpc_subnet:
@@ -116,7 +121,7 @@
     vpc_id: "{{ instance_data.instances[0].vpc_id }}"
     tags:
       Name: "{{ vpc_prefix }}_subnet"
-  when: instance_data is defined
+  when: instance_data.instances[0] is defined
   register: subnet_data
   tags: [ cleanup ]
 
@@ -126,6 +131,7 @@
 
 - pause:
     seconds: 5
+  when: instance_data.instances[0] is defined
 
 - name: remove the VPC
   ec2_vpc_net:
@@ -133,7 +139,7 @@
     name: "{{ vpc_prefix }}_vpc"
     region: "{{ aws_region }}"
     cidr_block: "{{ address_block }}"
-  when: instance_data is defined
+  when: instance_data.instances[0] is defined
   register: vpc_data
   tags: [ cleanup ]
 
