@@ -13,7 +13,7 @@
     - yum-utils
 
 - name: Update all packages
-  command: yum update -y
+  yum: name=* state=latest
 
 - name: "Create User {{ app_user }}"
   user:
