@@ -17,7 +17,7 @@
     name: "{{ app_user }}"
     create_home: true
     system: true
-    password: "{{ app_user_password}}"
+    password: "{{ app_user_password }}"
 
 - name: "Check if {{ app_user }} application is already cloned"
   stat:
