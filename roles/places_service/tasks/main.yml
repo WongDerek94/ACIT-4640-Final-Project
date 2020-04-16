@@ -36,13 +36,13 @@
 
 - name: "Configure Google Maps API"
   copy:
-    src="{{ map_container_js }}"
-    dest="{{ map_container_dest_location }}"
+    src: "{{ map_container_js }}"
+    dest: "{{ map_container_dest_location }}"
 
 - name: "Configure .env variables"
   template:
-    src="{{ env_file }}"
-    dest="{{ env_file_dest_dir }}"
+    src: "{{ env_file }}"
+    dest: "{{ env_file_dest }}"
 
 - name: "Change ownership of {{ app_user }} directory"
   file:
@@ -60,7 +60,7 @@
 - name: "Install node dependencies in src/"
   npm:
     path: "{{ app_directory }}/src"
-    
+
 - name: "Install node dependencies in src/client/"
   npm:
     path: "{{ app_client_directory }}"
@@ -69,11 +69,11 @@
   stat:
     path: "/etc/systemd/system/{{ app_user }}.service"
   register: "app_service_stat_result"
-    
+
 - name: "Register {{ app_user }} service"
-  template: 
-    src="{{ app_service_template_src }}" 
-    dest="{{ app_service_template_dest }}"
+  template:
+    src: "{{ app_service_template_src }}" 
+    dest: "{{ app_service_template_dest }}"
   when: "app_service_stat_result.stat.exists == False"
 
 - name: "Ensure {{ app_user }} is enabled and restarted"

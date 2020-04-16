@@ -12,7 +12,7 @@ subnet_address_block: "10.46.10.0/24"
 default_route: "0.0.0.0/0"
 
 # Creation of security group
-secgroup_ssh_allowed_instructor_cidr: "50.68.40.6/31"
+secgroup_ssh_allowed_instructor_cidr: "0.0.0.0/0"
 
 # Creation of ec2 instance
 ami_id: "ami-0bc06212a56393ee1"
