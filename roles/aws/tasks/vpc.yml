@@ -75,11 +75,6 @@
           - 3000
         cidr_ip: "0.0.0.0/0"
         rule_desc: "open front-end app port"
-      - proto: "tcp"
-        ports:
-          - 8080
-        cidr_ip: "0.0.0.0/0"
-        rule_desc: "open back-end app port"
     description:
       security group to be attached to the vpc allowing ssh connection from intended hosts home and http traffic from anywhere
   when: "vpc_data is defined"

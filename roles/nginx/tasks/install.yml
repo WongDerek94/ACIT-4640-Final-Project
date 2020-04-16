@@ -1,0 +1,10 @@
+---
+- name: "copy the 'nginx.repo' file"
+  copy:
+    src: "{{ nginx_repo_file }}"
+    dest: "/etc/yum.repos.d/nginx.repo"
+
+- name: "install package - nginx"
+  package:
+    name: "nginx"
+    state: "present"

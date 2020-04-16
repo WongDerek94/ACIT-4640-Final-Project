@@ -1,0 +1,19 @@
+---
+- name: "template the 'nginx.conf' file"
+  template:
+    src: "{{ nginx_conf_template }}"
+    dest: "/etc/nginx/nginx.conf"
+    owner: "{{ admin_username }}"
+
+- name: "allow nginx to read app's public directory"
+  file:
+    recurse: yes
+    path: "{{ app_client_directory }}/public/"
+    group: "nginx"
+
+- name: "start service - nginx"
+  systemd:
+    name: "nginx"
+    state: "started"
+    daemon_reload: yes
+    enabled: yes

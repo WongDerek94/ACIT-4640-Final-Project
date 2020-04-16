@@ -1,0 +1,6 @@
+---
+nginx_repo_file: "nginx.repo"
+admin_username: "centos"
+nginx_conf_template: "nginx.conf.j2"
+server_port: 8080
+server_hostname: "localhost"
