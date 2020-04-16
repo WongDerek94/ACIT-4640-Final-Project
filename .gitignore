@@ -1,5 +1,4 @@
 aws_access_keys
 aws_private_key
 ACIT4640_key.pem
-aws_setup.retry
-todoapp.retry
+*.retry

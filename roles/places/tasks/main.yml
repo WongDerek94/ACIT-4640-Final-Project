@@ -1,0 +1,5 @@
+---
+- name: "Install and setup places app including NodeJS dependencies"
+  import_role:
+    name: "places_service"
+...

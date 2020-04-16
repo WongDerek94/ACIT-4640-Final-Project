@@ -24,15 +24,15 @@
   become: true
   tasks:
     - import_role:
-        name: todoapp
+        name: places
       tags:
         - deployment
-    - import_role:
-        name: todoapp
-        tasks_from: info
-      tags:
-        - info
-        - never
+#     - import_role:
+#         name: todoapp
+#         tasks_from: info
+#       tags:
+#         - info
+#         - never
 # Print out public ip and domain name by default and after deployment
 - hosts: "localhost"
   connection: local
