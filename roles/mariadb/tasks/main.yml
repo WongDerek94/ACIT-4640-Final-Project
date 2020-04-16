@@ -50,6 +50,7 @@
     password: "{{ database_user_password }}"
     priv: '*.*:ALL'
     state: present
+    host: localhost
 
 - name: Copy over database dump file
   copy:

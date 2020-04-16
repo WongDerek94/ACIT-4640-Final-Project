@@ -1,17 +1,17 @@
 ---
-- name: Display status of both MariaDB, Nginx and Places services
+- name: "Display status of MariaDB, NGINX and Places services"
   service_facts:
-  register: service_state
+  register: "service_state"
 
 - debug:
-    msg: 
+    msg:
       "MariaDB service status: {{ service_state.ansible_facts.services['mariadb.service'].state }}"
 
-# - debug:
-#     msg: 
-#       "Nginx service status: {{ service_state.ansible_facts.services['nginx.service'].state }}"
+- debug:
+    msg:
+      "NGINX service status: {{ service_state.ansible_facts.services['nginx.service'].state }}"
 
 - debug:
-    msg: 
+    msg:
       "Places service status: {{ service_state.ansible_facts.services['places.service'].state }}"
 ...
