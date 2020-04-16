@@ -6,7 +6,15 @@
       instance-state-name: "running"
   register: "instance_data"
 - debug:
+    msg: "Instance is not created"
+  when: instance_data.instances[0] is undefined
+- debug:
+    msg: "{{ instance_data.instances[0].tags.Name }} instance is running"
+  when: instance_data.instances[0] is defined
+- debug:
     msg: "Public IP of instance: {{ instance_data.instances[0].public_ip_address }}"
+  when: instance_data.instances[0] is defined
 - debug:
     msg: "Public DNS name of instance: {{ instance_data.instances[0].public_dns_name }}"
+  when: instance_data.instances[0] is defined
 ...
